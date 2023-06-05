@@ -48,9 +48,9 @@ public class RedisConfiguration {
     //~ Methods ------------------------------------------------------------------------------------------------------------------
 
     /**
-     * TODO DOCUMENT ME!
+     * Redis Template of the registration to the database.
      *
-     * @return TODO DOCUMENT ME!
+     * @return configuration of redis template
      */
     @Bean
     RedisTemplate<String, URL> redisTemplate() {

@@ -43,7 +43,7 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * TODO DOCUMENT ME!
+ * Controller for the API - RESTController.
  *
  * @author $author$
  */
@@ -79,9 +79,9 @@ public class URLShortenerController {
     //~ Methods ------------------------------------------------------------------------------------------------------------------
 
     /**
-     * TODO DOCUMENT ME!
+     * Simple test for REST Controller.
      *
-     * @return TODO DOCUMENT ME!
+     * @return String value
      */
     @GetMapping("/samplemessage")
     public String getAMessageFromServer() {
@@ -91,11 +91,11 @@ public class URLShortenerController {
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * Fetch from the database.
      *
-     * @param  id urlToBePosted url inputwithurl key TODO DOCUMENT ME!
+     * @param  id for database search
      *
-     * @return TODO DOCUMENT ME!
+     * @return exact result from the database
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -113,9 +113,9 @@ public class URLShortenerController {
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * shortenURLFunc for the main purpose of URL Shortener.
      *
-     * @param  url urlDTO TODO DOCUMENT ME!
+     * @param  url URL parameter of URL Model
      *
      * @return TODO DOCUMENT ME!
      */
