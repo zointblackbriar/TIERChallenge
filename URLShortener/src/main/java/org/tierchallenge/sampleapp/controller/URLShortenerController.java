@@ -16,23 +16,30 @@ package org.tierchallenge.sampleapp.controller;
 // * portion of it, except as expressly provided under the given license.
 // */
 
+import com.google.common.hash.Hashing;
+
+import org.apache.commons.validator.routines.UrlValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.data.redis.core.RedisTemplate;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import org.tierapp.sampleapp.service.URLShortenerService;
+import org.tierchallenge.sampleapp.dto.URL;
+import org.tierchallenge.sampleapp.errormodel.Error;
 
-import org.tierchallenge.sampleapp.dto.URLDto;
+import java.nio.charset.Charset;
 
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -49,18 +56,24 @@ public class URLShortenerController {
     /**
      * TODO DOCUMENT ME!
      */
-    private URLShortenerService urlShortenerService;
+    private RedisTemplate<String, URL> redisTemplate;
+
+    /**
+     * TODO DOCUMENT ME!
+     */
+    @Value("${redis.ttl}")
+    private long ttl;
 
     //~ Constructors -------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new {@link URLShortenerController} object.
      *
-     * @param urlShortenerService TODO DOCUMENT ME!
+     * @param redisTemplate TODO DOCUMENT ME!
      */
     @Autowired
-    public URLShortenerController(URLShortenerService urlShortenerService) {
-        this.urlShortenerService = urlShortenerService;
+    public URLShortenerController(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
     //~ Methods ------------------------------------------------------------------------------------------------------------------
@@ -68,14 +81,33 @@ public class URLShortenerController {
     /**
      * TODO DOCUMENT ME!
      *
-     * @param  key TODO DOCUMENT ME!
+     * @return TODO DOCUMENT ME!
+     */
+    @GetMapping("/samplemessage")
+    public String getAMessageFromServer() {
+        String message = "Server is working";
+
+        return message;
+    }
+
+    /**
+     * TODO DOCUMENT ME!
+     *
+     * @param  id urlToBePosted url inputwithurl key TODO DOCUMENT ME!
      *
      * @return TODO DOCUMENT ME!
      */
-    @RequestMapping(value = "/{key}", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> getNewUrl(@PathVariable String key) {
-        String url = urlShortenerService.getUrlByKey(key);
+    public ResponseEntity getURLFromRedis(@PathVariable String id) {
+        // get from redis
+        URL url = redisTemplate.opsForValue().get(id);
+
+        if (url == null) {
+            Error error = new Error("id", id, "No such key exists");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
 
         return ResponseEntity.ok(url);
     }
@@ -83,15 +115,29 @@ public class URLShortenerController {
     /**
      * TODO DOCUMENT ME!
      *
-     * @param  url input TODO DOCUMENT ME!
+     * @param  url urlDTO TODO DOCUMENT ME!
      *
      * @return TODO DOCUMENT ME!
      */
-    @RequestMapping(value = "/urlshort", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<URLDto> shortenURLFunc(@NotBlank @PathVariable String url) {
-        URLDto shortenedUrl = urlShortenerService.shortenUrl(url);
+    public ResponseEntity shortenURLFunc(@NotNull @RequestBody URL url) {
+        UrlValidator validator = new UrlValidator(new String[] {"http", "https"});
 
-        return ResponseEntity.ok(shortenedUrl);
+        // if invalid url, return error
+        if (!validator.isValid(url.getUrl())) {
+            Error error = new Error("url", url.getUrl(), "Invalid URL");
+
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        String id = Hashing.murmur3_128().hashString(url.getUrl(), Charset.defaultCharset()).toString();
+        url.setId("tier.app/" + id);
+        url.setCreated(LocalDateTime.now());
+
+        // store in redis
+        redisTemplate.opsForValue().set(url.getId(), url, ttl, TimeUnit.SECONDS);
+
+        return ResponseEntity.ok(url);
     }
 }

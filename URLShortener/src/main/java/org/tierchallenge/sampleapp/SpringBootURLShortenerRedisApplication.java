@@ -6,28 +6,26 @@
  * You may not use, copy, modify, sublicense, or distribute the Program or any
  * portion of it, except as expressly provided under the given license.
  */
-package org.tierchallenge.sampleapp.mainapp;
+package org.tierchallenge.sampleapp;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Collections;
 
 
 /**
- * TODO DOCUMENT ME!
+ * Main application with custom port 3000.
  *
- * @author $author$
+ * @author Orcun Oruc
  */
+@ComponentScan
 @SpringBootApplication
-public class SpringBootJdbcExampleApplication implements CommandLineRunner {
+public class SpringBootURLShortenerRedisApplication {
 
     //~ Methods ------------------------------------------------------------------------------------------------------------------
-
-    //
-    // @Autowired
-    // StudentService studentService;
 
     /**
      * TODO DOCUMENT ME!
@@ -35,23 +33,9 @@ public class SpringBootJdbcExampleApplication implements CommandLineRunner {
      * @param args TODO DOCUMENT ME!
      */
     public static void main(String[] args) {
-        // SpringApplication.run(SpringBootJdbcExampleApplication.class, args);
         // Custom port Spring Web Application
-        SpringApplication app = new SpringApplication(SpringBootJdbcExampleApplication.class);
+        SpringApplication app = new SpringApplication(SpringBootURLShortenerRedisApplication.class);
         app.setDefaultProperties(Collections.singletonMap("server.port", "3000"));
         app.run(args);
     }
-
-    /**
-     * TODO DOCUMENT ME!
-     *
-     * @param  args TODO DOCUMENT ME!
-     *
-     * @throws Exception
-     */
-    @Override
-    public void run(String... args) throws Exception {
-        // TODO Auto-generated method stub
-    }
-
 }
