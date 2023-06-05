@@ -72,4 +72,20 @@ Response Body
 ```
 
 
-You can see the result under the /img folder
+You can see the result under the /img folder.
+
+Result 1: 
+
+![postman result 1](img/postman-result-1.png)
+
+Result 2: 
+
+![postman_result_2](img/postman-result-2.png)
+
+Result from terminal REDIS: 
+
+![result-from-terminal-redis](img/result-from-terminal-redis.png)
+
+Sample out output redis
+
+![sample-output-terminal-redis](img/sample-output-redis.png)
