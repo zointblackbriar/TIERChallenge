@@ -83,9 +83,9 @@ public class URL {
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * get the url value.
      *
-     * @return TODO DOCUMENT ME!
+     * @return getter
      */
     public String getUrl() {
         return url;

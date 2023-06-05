@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.MediaType;
@@ -25,13 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.tierchallenge.sampleapp.SpringBootURLShortenerRedisApplication;
-import org.tierchallenge.sampleapp.controller.URLShortenerController;
 
 
 /**
- * TODO DOCUMENT ME!
+ * Mock testing.
  *
- * @author $author$
+ * @author Orcun Oruc
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringBootURLShortenerRedisApplication.class)
@@ -49,7 +47,7 @@ public class MockURLShortenerTest {
     //~ Methods ------------------------------------------------------------------------------------------------------------------
 
     /**
-     * TODO DOCUMENT ME!
+     * sample message for testing purpose.
      *
      * @throws Exception
      */
@@ -61,7 +59,7 @@ public class MockURLShortenerTest {
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * test rest controller for url shortener.
      *
      * @throws Exception
      */

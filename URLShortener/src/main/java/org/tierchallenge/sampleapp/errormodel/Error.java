@@ -66,45 +66,45 @@ public class Error {
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * getMessage.
      *
-     * @return TODO DOCUMENT ME!
+     * @return return a message
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * getValue.
      *
-     * @return TODO DOCUMENT ME!
+     * @return return the value
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * setField.
      *
-     * @param field TODO DOCUMENT ME!
+     * @param field setter
      */
     public void setField(String field) {
         this.field = field;
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * setMessage.
      *
-     * @param message TODO DOCUMENT ME!
+     * @param message setter
      */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /**
-     * TODO DOCUMENT ME!
+     * setValue.
      *
-     * @param value TODO DOCUMENT ME!
+     * @param value setter
      */
     public void setValue(String value) {
         this.value = value;
