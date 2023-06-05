@@ -66,7 +66,7 @@ Response Body
 ```bash 
 {
 "id": "5446d139",
-"url": "https://www.codeprimers.com/url-shortener",
+"url": "https://www.tierapp.com/url-shortener",
 "created": "2019-02-18T13:29:14.449"
 }
 ```
